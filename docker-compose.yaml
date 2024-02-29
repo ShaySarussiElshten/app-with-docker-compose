@@ -1,0 +1,25 @@
+version: '3.7'
+
+services:
+  web:
+    build: .
+    ports:
+      - "5000:5000"
+    depends_on:
+      database:
+        condition: service_healthy
+    command: ["/bin/sh", "-c", "./wait-for-it.sh database:3306 -- node src/server.js"]
+    
+  database:
+    image: mysql/mysql-server:5.7
+    command: --max_allowed_packet=64M
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_USER=testuser
+      - MYSQL_PASSWORD=admin123
+      - MYSQL_DATABASE=backend
+    volumes:
+      - mydata:/var/lib/mysq
+
+volumes:
+  mydata:
