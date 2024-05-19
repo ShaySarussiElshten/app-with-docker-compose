@@ -11,7 +11,7 @@ services:
     command: ["/bin/sh", "-c", "./wait-for-it.sh database:3306 -- node src/server.js"]
     
   database:
-    image: mysql/mysql-server:5.7
+    image: mysql/mysql-server:8.0
     command: --max_allowed_packet=64M
     environment:
       - MYSQL_ROOT_PASSWORD=root
@@ -20,6 +20,12 @@ services:
       - MYSQL_DATABASE=backend
     volumes:
       - mydata:/var/lib/mysq
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
 
 volumes:
   mydata:

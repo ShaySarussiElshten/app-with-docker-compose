@@ -1,5 +1,5 @@
 const express = require('express');
-const mysql = require('mysql');
+const mysql = require('mysql2');
 const { initDb } = require('./db');
 
 const app = express();
@@ -7,10 +7,10 @@ const port = 5000;
 
 // Create a MySQL connection
 const connection = mysql.createConnection({
-    host: 'database',
-    user: 'testuser',
-    password: 'admin123',
-    // Initially connect without specifying the database
+  host: 'database',
+  user: 'testuser',
+  password: 'admin123',
+  // Initially connect without specifying the database
 });
 
 // Connect to MySQL
